@@ -11,23 +11,23 @@ upper_blue = np.array([130, 255, 255])
 
 last_blue_rect = None
 
+## AS LINHAS COMENTADAS SÃO FILTROS QUE DEIXAM A DETECÇÃO 100% PRECISA, MAS DEIXAM A REDERIZAÇÃO SUPER LENTA
+
 while True:
     ret, frame = cap.read()
     if not ret:
         break
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    hsv = cv2.medianBlur(hsv, 7)
+    #hsv = cv2.medianBlur(hsv, 7)
 
     mask_orange = cv2.inRange(hsv, lower_orange, upper_orange)
     mask_blue = cv2.inRange(hsv, lower_blue, upper_blue)
 
-    kernel = np.ones((5, 5), np.uint8)
-    mask_orange = cv2.morphologyEx(mask_orange, cv2.MORPH_OPEN, kernel)
-    mask_blue = cv2.morphologyEx(mask_blue, cv2.MORPH_OPEN, kernel)
+    #kernel = np.ones((5, 5), np.uint8)
+    #mask_orange = cv2.morphologyEx(mask_orange, cv2.MORPH_OPEN, kernel)
 
-    mask_orange = cv2.dilate(mask_orange, kernel, iterations=2)
-    mask_blue = cv2.dilate(mask_blue, kernel, iterations=2)
+    #mask_orange = cv2.dilate(mask_orange, kernel, iterations=2)
 
     contours_orange, _ = cv2.findContours(mask_orange, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours_blue, _ = cv2.findContours(mask_blue, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
